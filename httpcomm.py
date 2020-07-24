@@ -2,6 +2,7 @@ import zlib
 import httplib
 import urllib
 import urllib2
+import ssl
 import gzip
 import StringIO
 import cookielib
@@ -12,9 +13,15 @@ class HTTPComm:
     cj = None
     curlinstance = None
 
-    def __init__(self):
+    def __init__(self, ssl_check=False):
         self.cj = cookielib.CookieJar()
-        self.curlinstance = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cj))
+        if not ssl_check:
+          ctx = ssl.create_default_context()
+          ctx.check_hostname = False
+          ctx.verify_mode = ssl.CERT_NONE
+          self.curlinstance = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cj),urllib2.HTTPSHandler(context=ctx))
+        else:
+          self.curlinstance = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cj))
 
     def request(self, url, mode, postdata=None):
         timeout = 10

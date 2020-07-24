@@ -2,6 +2,11 @@
 * Fixed/improved feature
 - Removed feature
 
+2020-07-25 v1.0.3
+=================
+
++ Added SSL certificate check flag. It seems not to be liked by LibreElec on Raspberry Pi
+
 2014-05-01 v1.0.2
 =================
 
